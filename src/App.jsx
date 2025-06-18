@@ -8,15 +8,22 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [tasks, setTasks] = useState([]);
 
-  const handleAddTask = () => {
-   const newTask = {
+  const newTask = {
     id: newId,
     name: inputText,
     completed: false
   }
+
+  const handleAddTask = () => {
+    if(inputText.length < 3) {
+      alert('Task name should be at least 3 characters...')
+    } else {
+
     setTasks((prevTasks) => [...prevTasks, newTask]);
     console.log(newTask)
     setInputText('')
+    }
+
   }
 
   const handleDeleteTask = (id) => {
@@ -24,7 +31,16 @@ function App() {
     setTasks(deleteTask)
   }
 
-  const handleCompleteTask = () => {
+  const handleCompleteTask = (id) => {
+    let newTask = [...tasks]
+    let completeTask = tasks[id]
+    console.log(completeTask + 'here')
+    completeTask[tasks.filter((task) => task.completed = true)]
+    console.log(completeTask + 'here too')
+    newTask[id] = completeTask
+    console.log(completeTask + 'and here too')
+
+    setTasks(newTask)
 
   }
 
@@ -39,7 +55,7 @@ function App() {
           </button>
         <div className="flex flex-col gap-2 pt-4 p-4 border rounded">
           {tasks.map((task) => (
-            <Task key={task.id} name={task.name} taskId={task.id} deleteTask={handleDeleteTask}/>
+            <Task className={task.completed ? 'text-2xl text-slate-300 line-through' : ''} key={task.id} name={task.name}  deleteTask={handleDeleteTask} completeTask={handleCompleteTask} taskId={task.id}/>
 
           ))}
         </div>
